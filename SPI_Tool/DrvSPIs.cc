@@ -86,19 +86,19 @@ int DRVSpiSRecveData(vector<uint8> &Data) {
 		  else {
 		    if(dataBuf.size() >= SPI_HEADER_V2) {
 		      //data type can be found at dataBuf[SPI_DATA_TYPE_POS_V2];
-			  data_size_v2.myBytes.b1 = dataBuf[SPI_LENGTH_POS_V2];
-			  data_size_v2.myBytes.b2 = dataBuf[SPI_LENGTH_POS_V2+1];
-			  data_size_v2.myBytes.b3 = dataBuf[SPI_LENGTH_POS_V2+2];
-			  data_size_v2.myBytes.b4 = dataBuf[SPI_LENGTH_POS_V2+3];
-			  header_flag = true;
-			  dataBuf.erase(dataBuf.begin(), dataBuf.begin() + SPI_HEADER_V2);
-              cout<<"image size:"<<data_size_v2.sizeInt<<endl;
+          data_size_v2.myBytes.b1 = dataBuf[SPI_LENGTH_POS_V2];
+          data_size_v2.myBytes.b2 = dataBuf[SPI_LENGTH_POS_V2+1];
+          data_size_v2.myBytes.b3 = dataBuf[SPI_LENGTH_POS_V2+2];
+          data_size_v2.myBytes.b4 = dataBuf[SPI_LENGTH_POS_V2+3];
+          header_flag = true;
+          dataBuf.erase(dataBuf.begin(), dataBuf.begin() + SPI_HEADER_V2);
+          cout<<"image size:"<<data_size_v2.sizeInt<<endl;
+          if(data_size_v2.sizeInt > 30000) return retCode = 1;
 		    }
             break;
-		  }
+		    }
 	    }
-
-	  } // end of if
+	  }
 
 	  if( header_flag == true && (dataBuf.size() >= data_size_v2.sizeInt)) {
 	    header_flag = false;
@@ -108,12 +108,11 @@ int DRVSpiSRecveData(vector<uint8> &Data) {
 	    dataBuf.erase(dataBuf.begin(), dataBuf.begin() + data_size_v2.sizeInt);
         DRVSpiSFlag = 0;
         retCode = 0;
-	  }
+	    }
 
     } // end of FT4222_SPISlave_GetRxStatus
     
-  } // end of while 
-
+  }
   return retCode;
 }
 

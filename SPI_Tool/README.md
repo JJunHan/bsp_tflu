@@ -1,27 +1,30 @@
 # SPI Tool for receive meta-data and images from HIMAX_WE1_EVB
+
 It is a command-line tool for receive SPI data from HIMAX_WE1_EVB. The tool has been built by g++ and tested in Ubuntu 20.04 LTS environment.
 
 source and one built version are placed in the directory.
   
 ## Table of contents
-  - [Prerequisites](#prerequisites)
-  - [Direct Use the built version tool](#direct-use-the-built-version-tool)
-  - [How HIMAX WE1 EVB send data out via SPI](#how-himax-we1-evb-send-data-out-via-spi)
-  - [build](#build)
-  - [SPI protocol](#spi-protocol)
-   
+
+- [Prerequisites](#prerequisites)
+- [Direct Use the built version tool](#direct-use-the-built-version-tool)
+- [How HIMAX WE1 EVB send data out via SPI](#how-himax-we1-evb-send-data-out-via-spi)
+- [build](#build)
+- [SPI protocol](#spi-protocol)
+
 ## Prerequisites
+
 - C++ compiler
   
-  To check if the compiler installed in your environment, 
-      
-  ```
+  To check if the compiler installed in your environment,
+
+  ```bash
   g++ --version
   ```
 
-  the compiler can be installed by 
+  the compiler can be installed by
 
-  ```
+  ```bash
   sudo apt install g++
   sudo apt update
   sudo apt install build-essential
@@ -30,32 +33,55 @@ source and one built version are placed in the directory.
 - FT4222 Linux driver
   1. Download FT4222 Linux driver [here](https://www.ftdichip.com/Support/SoftwareExamples/libft4222-linux-1.4.4.9.tgz).
   2. To install the FT4222 driver
-    ```
+
+    ```bash
     sudo ./install4222.sh
     ```
-  3. Assign access right to a USB device, go to the directory 
 
-    ```
+  3. Assign access right to a USB device, go to the directory
+
+    ```bash
     cd /etc/udev/rules.d/
     ```
 
     create a file with naming `99-ftdi.rules`, fill following data in the file
 
-    ```
+    ```bash
     # FTDI's ft4222 USB-I2C Adapter
     SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="601c", GROUP="plugdev", MODE="0666"
     ```
 
+- Install [ImageMAgicK](https://imagemagick.org/script/install-source.php) from source
+
+  Other relevant libraries can be downloaded if need for the project.
+
+  1. Download the required libraries
+
+  ```bash
+  sudo apt-get libltdl-dev
+  sudo apt-get libx11-dev
+  sudo apt-get libjpeg-dev
+  sudo apt install libfreetype6-dev
+  ```
+
+  - Aids in opening dlopening libraries.
+  - Provides the shared libraries needed to display data.
+  - Used in the conversion of blobs to jpeg images.
+  - Needed for digital typography used to label the images.
+
 ## Direct Use the built version tool
-After prerequisites are checked, you can directly use the `WEI_SPIrecvImg` tool in the directory, remember to connect the USB cable.
+
+After prerequisites are checked, you can directly use the `WEI_SPIrecvImgtest` tool in the directory, remember to connect the USB cable.
 
 In handwriting example, sensor images with JPG format and handwriting result as meta-data are sent through SPI interface. you can use this example to check if WEI_SPIrecvImg tool correctly receives the data.
 
 1. follow the [steps](https://github.com/HimaxWiseEyePlus/himax_tflm#deploy-to-himax-we1-evb) to burn handwriting example into HIMAX_WE1_EVB
-2. In Linux environment, type 
-    ```
+2. In Linux environment, type
+
+    ```bash
     ./WEI_SPIrecvImg 30
     ```
+
     to receive 30 data. It should be 15 images and 15 handwriting results, each data will be placed with filename 'default[no].dat'.
 
 ![](images/receive_data.png)
@@ -68,20 +94,22 @@ To use SPI, let's take Handwriting as an example, HIMAX_WE1_EVB will need to ini
 
 To check more details, jpeg image out code [here](https://github.com/HimaxWiseEyePlus/himax_tflm/blob/master/examples/handwriting/himax_we1_evb/image_provider.cc) and meta-data code [here](https://github.com/HimaxWiseEyePlus/himax_tflm/blob/master/examples/handwriting/himax_we1_evb/detection_responder.cc)
 
-
-
 ## build
 
 you can also build your tool from source by
 
-```
+```bash
 /build_cmd.sh
 ```
 
-the tool will be built via g++ with the filename `WEI_SPIrecvImg`
+the tool will be built via g++ with the filename `WEI_SPIrecvImgtest`
 
-## SPI protocol 
+## SPI protocol
 
 when HIMAX_WE1_EVB sends data out via SPI, it will be placed with a header and data may be cut into packages based on the data length.
 
 ![](images/spi_protocol.png)
+
+## Sample image
+
+![](images/sampleimage.png)

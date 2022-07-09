@@ -1,1 +1,2 @@
-g++ main.cc DrvSPIs.cc -lft4222 -lpthread -Wl,-rpath,/usr/local/lib -o WEI_SPIrecvImg
+#g++ main.cc DrvSPIs.cc -lft4222 -lpthread -Wl,-rpath,/usr/local/lib -o WEI_SPIrecvImg
+g++ `Magick++-config --cxxflags --cppflags` -O2 -o WEI_SPIrecvImgtest main.cc DrvSPIs.cc -lft4222 -lpthread   `Magick++-config --ldflags --libs`
