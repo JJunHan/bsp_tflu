@@ -110,6 +110,10 @@ when HIMAX_WE1_EVB sends data out via SPI, it will be placed with a header and d
 
 ![](images/spi_protocol.png)
 
+## Packet structure
+
+![](images/packet.png)
+
 ## Sample image
 
 ![](images/sampleimage.png)
